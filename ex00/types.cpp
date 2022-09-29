@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   except.cpp                                         :+:      :+:    :+:   */
+/*   types.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/29 11:04:02 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/29 11:07:34 by mmarinel         ###   ########.fr       */
+/*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
+/*   Updated: 2022/09/29 19:26:40 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "types.hpp"
 
-const char*	s_type::ImpossibleConversion::what( void ) const throw() {
-	return (BOLDRED "Impossible" RESET);
-}
-
-const char*	s_type::NonDisplayableConversion::what( void ) const throw() {
-	return (BOLDRED "Non Displayable" RESET);
+const std::ostream&	s_type::operator<<(std::ostream& ostream) {
+	const t_cast_handle casts[TYPES] = {
+		{"char", &t_type::operator t_char},
+		{"int", &s_type::to_tint},
+		{"float", &s_type::to_tfloat},
+		{"double", &s_type::to_tdouble}
+	};
 }

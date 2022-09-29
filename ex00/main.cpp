@@ -5,119 +5,65 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/04 14:44:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/23 11:56:05 by mmarinel         ###   ########.fr       */
+/*   Created: 2022/09/27 16:59:30 by mmarinel          #+#    #+#             */
+/*   Updated: 2022/09/27 20:29:54 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
-
 #include <iostream>
+#include <string>
+#include <cstdlib>
+#include <cctype>
+#include <limits>
 
-static Bureaucrat*	read_bureaucrat( void );
-static void			bur_modify_grade( Bureaucrat* bur );
-static void			bur_inc ( Bureaucrat *bur );
-static void			bur_dec ( Bureaucrat *bur );
+typedef enum e_type
+{
+	e_CHAR,
+	e_INT,
+	e_FLOAT,
+	e_DOUBLE,
+	e_NONE
+}	t_type;
+
+static t_type	typeOf(const char* arg);
+static bool		is_digit(const char* arg);
+static bool		str
 //* end of static declarations
 
-int	main()
-{
-	Bureaucrat	*bur = nullptr;
 
-	std::cin.exceptions(std::ios_base::badbit | std::ios_base::eofbit);
-	try {
-			bur = read_bureaucrat();
-			std::cout << std::endl << *bur << std::endl;
-			bur_modify_grade(bur);
-	}
-	catch (std::istream::failure &e) {
-		std::cout << "eof caught or stream broken" << std::endl;
-	}
-	_delete(bur);
+int main(int argc, char const *argv[])
+{
 	return 0;
 }
 
-static Bureaucrat*	read_bureaucrat( void )
+static t_type	typeOf(const char* arg)
 {
-	Bureaucrat*	bur = nullptr;
-	bool		repeat;
-	std::string	bur_name;
-	int			bur_grade;
+	bool	dot_found = false;
+	bool	f_found = false;
 
-	repeat = true;
-	while (repeat)
+	if (std::strlen(arg) == 1)
+		return (e_CHAR);
+	if (arg[])
+	else if (false == is_digit(arg))
+		return (e_NONE);
+	else
 	{
-		read_string(bur_name, "enter bureaucrat name");
-		read_input(&bur_grade, int, "insert bureaucrat grade");
-		try {
-			bur = new Bureaucrat(bur_name, bur_grade);
-			repeat = false;
-		}
-		catch (std::exception& e) {
-			std::cout << "Invalid bureaucrat data: " << e.what() << std::endl;
-			std::cout << "Press any key to retry...";
-			std::getchar();
-			std::cout  << std::endl;
-		}
-	}
-	return (bur);
-}
-
-static void			bur_modify_grade( Bureaucrat* bur )
-{
-	int	selection;
-	do
-	{
-		std::cout << "/* Choose operation to be performed on bureaucrat*/" << std::endl;
-		read_input(&selection, int,\
-			"\n\
-			1. increment Bureaucrat grade\n \
-			2. decrement Bureaucrat grade\n \
-			3. exit\
-			\n");
-		switch (selection)
-		{
-		case 1:
-			bur_inc(bur);
-			break;
-		case 2:
-			bur_dec(bur);
-			break;
-		
-		default:
-			break;
-		}
-	} while (selection != 3);
-}
-
-static void	bur_inc ( Bureaucrat *bur )
-{
-	try
-	{
-		bur->increment();
-		std::cout << GREEN << *bur << RESET;
-	}
-	catch(const Grade::GradeTooHighException& e)
-	{
-		std::cout << RED << e.what() << RESET << std::endl;
-		std::cout << "Press any key to retry...";
-		std::getchar();
-		std::cout << std::endl;
+		if (NULL != std::strchr(arg, '.'))
 	}
 }
 
-static void	bur_dec ( Bureaucrat *bur )
+static bool		is_digit(const char* arg)
 {
-	try
+	size_t	i;
+
+	if (NULL == arg)
+		return (false);
+	i = 0;
+	while (arg[i])
 	{
-		bur->decrement();
-		std::cout << GREEN << *bur << RESET;
+		if (0 == std::isdigit(arg[i]))
+			return (false);
+		i++;
 	}
-	catch(const Grade::GradeTooLowException& e)
-	{
-		std::cout << e.what() << std::endl;
-		std::cout << "Press any key to retry...";
-		std::getchar();
-		std::cout << std::endl;
-	}
+	return (true);
 }
