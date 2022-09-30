@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 18:34:05 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 19:09:49 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_int::s_int( const std::string string_repr ) {
 		this->value = static_cast<int>(value);
 }
 
-t_char::s_char( const std::string string_repr ) {
+t_printable_char::s_printable_char( const std::string string_repr ) {
 	long long	integral_repr;
 
 	if (is_digit(string_repr))
@@ -62,7 +62,7 @@ t_float::s_float( const std::string string_repr ) {
 	long double	value;
 	char*		repr_endPtr = nullptr;
 
-	std::cout << "float max: " << std::numeric_limits<float>::max() << " float lowest: " << std::numeric_limits<float>::lowest() << std::endl;
+	// std::cout << "float max: " << std::numeric_limits<float>::max() << " float lowest: " << std::numeric_limits<float>::lowest() << std::endl;
 	value = strtold(string_repr.c_str(), &repr_endPtr);
 	if (
 		(*repr_endPtr && 0 != std::strcmp(repr_endPtr, "f"))
@@ -75,8 +75,27 @@ t_float::s_float( const std::string string_repr ) {
 		this->value = static_cast<float>(value);
 }
 
+t_double::s_double( const std::string string_repr ) {
+	long double	value;
+	char*		repr_endPtr = nullptr;
+
+	std::cout << "string: " << string_repr << std::endl;
+	std::cout << "double max: " << std::numeric_limits<double>::max() << " float lowest: " << std::numeric_limits<double>::lowest() << std::endl;
+	value = strtold(string_repr.c_str(), &repr_endPtr);
+	std::cout << "value: " << value << std::endl;
+	if (
+		*repr_endPtr
+		||
+		(value > std::numeric_limits<double>::max()
+			|| value < std::numeric_limits<double>::lowest())
+	)
+		throw ImpossibleConversion("double");
+	else
+		this->value = static_cast<double>(value);
+}
+
 //* insertion operators VERY UGLY i know!
-const std::ostream&	operator<<(std::ostream& ostream, const t_char& tchar) {
+const std::ostream&	operator<<(std::ostream& ostream, const t_printable_char& tchar) {
 	ostream << tchar.value;
 
 	return (ostream);
@@ -94,9 +113,11 @@ const std::ostream&	operator<<(std::ostream& ostream, const t_float& tfloat) {
 	return (ostream);
 }
 
-// const std::ostream&	t_double::operator<<(std::ostream& ostream) {
-// 	ostream << this->value;
-// }
+const std::ostream&	operator<<(std::ostream& ostream, const t_double& tdouble) {
+	ostream << tdouble.value;
+
+	return (ostream);
+}
 
 static bool	is_digit(std::string arg)
 {

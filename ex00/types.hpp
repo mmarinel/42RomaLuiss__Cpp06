@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 18:33:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 18:24:15 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 19:09:17 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define delete(ptr) {delete ptr; ptr = nullptr;}
 
 typedef struct s_type	t_type;
-typedef struct s_char	t_char;
+typedef struct s_printable_char	t_printable_char;
 typedef struct s_int	t_int;
 typedef struct s_float	t_float;
 typedef struct s_double	t_double;
@@ -31,7 +31,7 @@ typedef struct s_double	t_double;
 struct s_type
 {
 	//* Conversion operators
-	// virtual	operator t_char() const = 0;
+	// virtual	operator t_printable_char() const = 0;
 	// virtual	operator t_int() const = 0;
 	// virtual	operator t_float() const = 0;
 	// virtual	operator t_double() const = 0;
@@ -57,10 +57,10 @@ struct s_type
 	};
 };
 
-struct s_char : public t_type
+struct s_printable_char : public t_type
 {
 	//* Constructors
-	s_char(const std::string string_repr);
+	s_printable_char(const std::string string_repr);
 
 	//* Data
 	char value;
@@ -84,23 +84,20 @@ struct s_float : public t_type
 	float value;
 };
 
-// struct s_double : public t_type
-// {
-// 	//* Constructors
-// 	s_double(std::string string_repr);
+struct s_double : public t_type
+{
+	//* Constructors
+	s_double(std::string string_repr);
 
-// 	//* Insertion operator
-// 	const std::ostream& operator << (std::ostream& ostream);
-
-// 	//* Data
-// 	double value;
-// };
+	//* Data
+	double value;
+};
 
 
 //* Insertion operators
-const std::ostream& operator << (std::ostream& ostream, const t_char& tchar);
+const std::ostream& operator << (std::ostream& ostream, const t_printable_char& tchar);
 const std::ostream& operator << (std::ostream& ostream, const t_int& tint);
 const std::ostream& operator << (std::ostream& ostream, const t_float& tfloat);
-// const std::ostream& operator << (std::ostream& ostream, const t_double& tdouble);
+const std::ostream& operator << (std::ostream& ostream, const t_double& tdouble);
 
 #endif /* TYPES_H */
