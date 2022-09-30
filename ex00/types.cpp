@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 15:59:59 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:54:47 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,47 @@ static bool	is_digit(std::string arg);
 
 //* Constructors...if the string matches type exactly I convert it, otherwise exceptions are thrown
 
-t_int::s_int( std::string string_repr ) {
+t_int::s_int( const std::string string_repr ) {
 	long long	value;
 
-	if (is_digit(string_repr))
+	// std::cout << "string: " << string_repr << std::endl;
+	value = strtoll(string_repr.c_str(), nullptr, 10);
+	if (
+		(is_digit(string_repr)
+			|| (0 == string_repr.substr(0,1).compare("-")
+				&& is_digit(string_repr.substr(1)))
+		)
+		&& (value >= std::numeric_limits<int>::min()
+			&& value <= std::numeric_limits<int>::max())
+	)
 	{
-		value = strtoll(string_repr.c_str(), nullptr, 10);
-		if (value >= std::numeric_limits<int>::min()
-			|| value <= std::numeric_limits<int>::max())
-		{
-			this->value = static_cast<int>(value);
-			return ;
-		}
+		this->value = static_cast<int>(value);
 	}
-	throw ImpossibleConversion("int");
+	else
+		throw ImpossibleConversion("int");
 }
 
 t_char::s_char( std::string string_repr ) {
+	long long	integral_repr;
 
-	if (string_repr.length() == 1
-		&& string_repr[0] <= std::numeric_limits<char>::max()
-		&& string_repr[0] >= std::numeric_limits<char>::min())
+	if (is_digit(string_repr))
 	{
-		if (false == std::isprint(string_repr[0] - 48))
+		integral_repr = strtoll(string_repr.c_str(), nullptr, 10);
+		if (integral_repr > std::numeric_limits<char>::max()
+			|| integral_repr < std::numeric_limits<char>::min())//* useless
+			throw ImpossibleConversion("char");
+		if (false == std::isprint(static_cast<char>(integral_repr)))
 			throw NonDisplayableConversion("char");
-		this->value = string_repr[0];
+		this->value = static_cast<char>(integral_repr);
 	}
 	else
-		throw ImpossibleConversion("char");
+	{
+		if (string_repr.length() != 1)
+			throw ImpossibleConversion("char");
+		if (false == std::isprint(string_repr[0]))
+			throw NonDisplayableConversion("char");
+		this->value = static_cast<char>(string_repr[0]);
+	}
 }
 
 //* insertion operators VERY UGLY i know!
