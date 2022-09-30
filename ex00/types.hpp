@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 18:33:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/29 19:35:27 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:51:37 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <iostream>
 # include <string>
+# include <limits>
+
 # include "../colors.hpp"
 
 # define TYPES 4
@@ -29,32 +31,36 @@ typedef struct s_double	t_double;
 struct s_type
 {
 	//* Conversion operators
-	virtual	operator t_char() const = 0;
-	virtual	operator t_int() const = 0;
-	virtual	operator t_float() const = 0;
-	virtual	operator t_double() const = 0;
-
-	//* Insertion operator
-	const std::ostream&	operator <<	(std::ostream& ostream);
+	// virtual	operator t_char() const = 0;
+	// virtual	operator t_int() const = 0;
+	// virtual	operator t_float() const = 0;
+	// virtual	operator t_double() const = 0;
 
 	//* Exceptions
 	class ImpossibleConversion : public std::exception {
 		public:
+			ImpossibleConversion();
+			ImpossibleConversion(const char* sig);
+			~ImpossibleConversion() throw();
 			virtual const char*	what() const throw();
+		private:
+			const std::string	msg;
 	};
 	class NonDisplayableConversion : public std::exception {
 		public:
+			NonDisplayableConversion();
+			NonDisplayableConversion(const char* sig);
+			~NonDisplayableConversion() throw();
 			virtual const char*	what() const throw();
+		private:
+			const std::string	msg;
 	};
 };
 
 struct s_char : public t_type
 {
 	//* Constructors
-	s_char(std::string arg);
-
-	//* Insertion operator
-	const std::ostream& operator << (std::ostream& ostream);
+	s_char(std::string string_repr);
 
 	//* Data
 	char value;
@@ -63,44 +69,41 @@ struct s_char : public t_type
 struct s_int : public t_type
 {
 	//* Constructors
-	s_int(std::string arg);
-
-	//* Insertion operator
-	const std::ostream& operator << (std::ostream& ostream);
+	s_int(std::string string_repr);
 
 	//* Data
 	int value;
 };
 
-struct s_float : public t_type
-{
-	//* Constructors
-	s_float(std::string arg);
+// struct s_float : public t_type
+// {
+// 	//* Constructors
+// 	s_float(std::string string_repr);
 
-	//* Insertion operator
-	const std::ostream& operator << (std::ostream& ostream);
+// 	//* Insertion operator
+// 	const std::ostream& operator << (std::ostream& ostream);
 
-	//* Data
-	float value;
-};
+// 	//* Data
+// 	float value;
+// };
 
-struct s_double : public t_type
-{
-	//* Constructors
-	s_double(std::string arg);
+// struct s_double : public t_type
+// {
+// 	//* Constructors
+// 	s_double(std::string string_repr);
 
-	//* Insertion operator
-	const std::ostream& operator << (std::ostream& ostream);
+// 	//* Insertion operator
+// 	const std::ostream& operator << (std::ostream& ostream);
 
-	//* Data
-	double value;
-};
+// 	//* Data
+// 	double value;
+// };
 
-typedef t_type&(t_type::*t_cast)( void );
 
-typedef struct t_cast_handle {
-	const char*	name;
-	t_cast		handle;
-};
+//* Insertion operators
+const std::ostream& operator << (std::ostream& ostream, const t_char& tchar);
+const std::ostream& operator << (std::ostream& ostream, const t_int& tint);
+// const std::ostream& operator << (std::ostream& ostream, const t_float& tfloat);
+// const std::ostream& operator << (std::ostream& ostream, const t_double& tdouble);
 
 #endif /* TYPES_H */

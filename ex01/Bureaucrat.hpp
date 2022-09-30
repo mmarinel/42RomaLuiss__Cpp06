@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 15:51:53 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/20 10:49:10 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 14:22:13 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ class Bureaucrat
 		Bureaucrat( const std::string name, int grade );
 
 		// Destructor
-		~Bureaucrat();
+		virtual ~Bureaucrat();
 
 		// Operators
 		Bureaucrat & operator=( const Bureaucrat &assign );
