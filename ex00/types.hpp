@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 18:33:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 16:46:00 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 18:24:15 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,14 @@ struct s_int : public t_type
 	int value;
 };
 
-// struct s_float : public t_type
-// {
-// 	//* Constructors
-// 	s_float(std::string string_repr);
+struct s_float : public t_type
+{
+	//* Constructors
+	s_float(const std::string string_repr);
 
-// 	//* Insertion operator
-// 	const std::ostream& operator << (std::ostream& ostream);
-
-// 	//* Data
-// 	float value;
-// };
+	//* Data
+	float value;
+};
 
 // struct s_double : public t_type
 // {
@@ -103,7 +100,7 @@ struct s_int : public t_type
 //* Insertion operators
 const std::ostream& operator << (std::ostream& ostream, const t_char& tchar);
 const std::ostream& operator << (std::ostream& ostream, const t_int& tint);
-// const std::ostream& operator << (std::ostream& ostream, const t_float& tfloat);
+const std::ostream& operator << (std::ostream& ostream, const t_float& tfloat);
 // const std::ostream& operator << (std::ostream& ostream, const t_double& tdouble);
 
 #endif /* TYPES_H */

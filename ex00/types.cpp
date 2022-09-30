@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 16:54:47 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 18:34:05 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,29 @@ static bool	is_digit(std::string arg);
 t_int::s_int( const std::string string_repr ) {
 	long long	value;
 
-	// std::cout << "string: " << string_repr << std::endl;
 	value = strtoll(string_repr.c_str(), nullptr, 10);
 	if (
-		(is_digit(string_repr)
-			|| (0 == string_repr.substr(0,1).compare("-")
-				&& is_digit(string_repr.substr(1)))
-		)
-		&& (value >= std::numeric_limits<int>::min()
-			&& value <= std::numeric_limits<int>::max())
+		false == is_digit(string_repr)
+		|| (0 == string_repr.substr(0,1).compare("-")
+				&& false == is_digit(string_repr.substr(1))
+			)
+		|| (value > std::numeric_limits<int>::max()
+				|| value < std::numeric_limits<int>::lowest()
+			)
 	)
-	{
-		this->value = static_cast<int>(value);
-	}
-	else
 		throw ImpossibleConversion("int");
+	else
+		this->value = static_cast<int>(value);
 }
 
-t_char::s_char( std::string string_repr ) {
+t_char::s_char( const std::string string_repr ) {
 	long long	integral_repr;
 
 	if (is_digit(string_repr))
 	{
 		integral_repr = strtoll(string_repr.c_str(), nullptr, 10);
 		if (integral_repr > std::numeric_limits<char>::max()
-			|| integral_repr < std::numeric_limits<char>::min())//* useless
+			|| integral_repr < std::numeric_limits<char>::lowest())//* useless
 			throw ImpossibleConversion("char");
 		if (false == std::isprint(static_cast<char>(integral_repr)))
 			throw NonDisplayableConversion("char");
@@ -60,6 +58,23 @@ t_char::s_char( std::string string_repr ) {
 	}
 }
 
+t_float::s_float( const std::string string_repr ) {
+	long double	value;
+	char*		repr_endPtr = nullptr;
+
+	std::cout << "float max: " << std::numeric_limits<float>::max() << " float lowest: " << std::numeric_limits<float>::lowest() << std::endl;
+	value = strtold(string_repr.c_str(), &repr_endPtr);
+	if (
+		(*repr_endPtr && 0 != std::strcmp(repr_endPtr, "f"))
+		||
+		(value > std::numeric_limits<float>::max()
+			|| value < std::numeric_limits<float>::lowest())
+	)
+		throw ImpossibleConversion("float");
+	else
+		this->value = static_cast<float>(value);
+}
+
 //* insertion operators VERY UGLY i know!
 const std::ostream&	operator<<(std::ostream& ostream, const t_char& tchar) {
 	ostream << tchar.value;
@@ -73,9 +88,11 @@ const std::ostream&	operator<<(std::ostream& ostream, const t_int& tint) {
 	return (ostream);
 }
 
-// const std::ostream&	t_float::operator<<(std::ostream& ostream) {
-// 	ostream << this->value;
-// }
+const std::ostream&	operator<<(std::ostream& ostream, const t_float& tfloat) {
+	ostream << tfloat.value;
+
+	return (ostream);
+}
 
 // const std::ostream&	t_double::operator<<(std::ostream& ostream) {
 // 	ostream << this->value;

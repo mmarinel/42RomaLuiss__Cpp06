@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 16:59:30 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 16:51:30 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 18:20:06 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
 {
 	if (argc == 2)
 	{
-		t_int	pippo(argv[1]);
+		t_float	pippo(argv[1]);
 		std::cout << pippo;
 	}
 }
