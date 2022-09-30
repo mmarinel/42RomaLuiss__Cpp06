@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 18:33:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 19:09:17 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 19:22:34 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ struct s_type
 struct s_printable_char : public t_type
 {
 	//* Constructors
+	s_printable_char(const char char_repr);
 	s_printable_char(const std::string string_repr);
 
 	//* Data
@@ -69,6 +70,7 @@ struct s_printable_char : public t_type
 struct s_int : public t_type
 {
 	//* Constructors
+	s_int(const int int_repr);
 	s_int(const std::string string_repr);
 
 	//* Data
@@ -78,6 +80,7 @@ struct s_int : public t_type
 struct s_float : public t_type
 {
 	//* Constructors
+	s_float(const float float_repr);
 	s_float(const std::string string_repr);
 
 	//* Data
@@ -87,7 +90,8 @@ struct s_float : public t_type
 struct s_double : public t_type
 {
 	//* Constructors
-	s_double(std::string string_repr);
+	s_double(const double double_repr);
+	s_double(const std::string string_repr);
 
 	//* Data
 	double value;

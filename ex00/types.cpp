@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 19:09:49 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/09/30 19:26:34 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,26 @@ t_double::s_double( const std::string string_repr ) {
 		throw ImpossibleConversion("double");
 	else
 		this->value = static_cast<double>(value);
+}
+
+t_printable_char::s_printable_char( const char char_repr) {
+	
+	if (false == std::isprint(char_repr))
+		throw NonDisplayableConversion("char");
+	else
+		this->value = char_repr;
+}
+
+t_int::s_int( const int int_repr) {
+	this->value = int_repr;
+}
+
+t_float::s_float( const float float_repr) {
+	this->value = float_repr;
+}
+
+t_double::s_double( const double double_repr) {
+	this->value = double_repr;
 }
 
 //* insertion operators VERY UGLY i know!
