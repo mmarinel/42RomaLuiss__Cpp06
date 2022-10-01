@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 12:05:01 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/01 15:33:05 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/01 18:29:16 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ bool	ScalarConverter::is_TInt( const std::string string_repr ) {
 	else
 		return (true);
 }
-bool ScalarConverter::is_TFloat( const std::string string_repr ) {
+bool	ScalarConverter::is_TFloat( const std::string string_repr ) {
 	long double	value;
 	char*		repr_endPtr = nullptr;
 
@@ -102,7 +102,7 @@ bool ScalarConverter::is_TDouble( std::string string_repr ) {
 //* Conversions
 t_type*	ScalarConverter::makeTPrintableChar( const std::string string_repr ) {
 	t_printable_char*	scalar;
-	long long	integral_repr;
+	long long			integral_repr;
 
 	if (is_digit(string_repr))
 	{
@@ -116,6 +116,34 @@ t_type*	ScalarConverter::makeTPrintableChar( const std::string string_repr ) {
 
 	return (scalar);
 }
+t_type*	ScalarConverter::makeTInt( const std::string string_repr ) {
+	t_int*		scalar;
+	long long	integral_repr;
+
+	integral_repr = strtoll(string_repr.c_str(), nullptr, 10);
+	scalar = new t_int(static_cast<int>(integral_repr));
+
+	return (scalar);
+}
+t_type*	ScalarConverter::makeTFloat( const std::string string_repr ) {
+	t_float*	scalar;
+	long double	value;
+
+	value = strtold(string_repr.c_str(), nullptr);
+	scalar = new t_float(static_cast<float>(value));
+
+	return (scalar);
+}
+t_type*	ScalarConverter::makeTDouble( const std::string string_repr ) {
+	t_double*	scalar;
+	long double	value;
+
+	value = strtold(string_repr.c_str(), nullptr);
+	scalar = new t_double(static_cast<double>(value));
+
+	return (scalar);
+}
+
 
 //* Static functions
 static bool	is_digit(std::string arg)

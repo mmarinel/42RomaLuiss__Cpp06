@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/01 14:23:19 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/01 19:02:13 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,39 @@ t_nan::operator t_double() const {
 	throw ImpossibleConversion("double");
 }
 
+	//* t_printable_char type
+t_printable_char::operator t_printable_char() const {
+	return (t_printable_char(this->value));
+}
+t_printable_char::operator t_int() const {
+	return (t_int(static_cast<int>(this->value)));
+}
+t_printable_char::operator t_float() const {
+	return (t_float(static_cast<float>(this->value)));
+}
+t_printable_char::operator t_double() const {
+	return (t_double(static_cast<double>(this->value)));
+}
+	//* t_int type
+t_int::operator t_printable_char() const {
+	if (this->value > std::numeric_limits<char>::max()
+		|| this->value < std::numeric_limits<char>::min())
+		throw ImpossibleConversion("char");
+	if (false == std::isprint(static_cast<char>(this->value)))
+		throw NonDisplayableConversion("char");
+	return (t_printable_char(this->value));
+}
+t_int::operator t_int() const {
+	return (this->value);
+}
+t_int::operator t_float() const {
+	return (t_float(static_cast<float>(this->value)));
+}
+t_int::operator t_double() const {
+	return (t_double(static_cast<double>(this->value)));
+}
+
+	//* t_float type
 //* insertion operators VERY UGLY i know!
 const std::ostream&	operator<<(std::ostream& ostream, const t_printable_char& tchar) {
 	ostream << tchar.value;
