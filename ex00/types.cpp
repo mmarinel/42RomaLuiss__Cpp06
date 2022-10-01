@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 19:26:34 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/01 14:23:19 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,21 @@ t_float::s_float( const float float_repr) {
 
 t_double::s_double( const double double_repr) {
 	this->value = double_repr;
+}
+
+// * Conversions
+
+t_nan::operator t_printable_char() const {
+	throw ImpossibleConversion("char");
+}
+t_nan::operator t_int() const {
+	throw ImpossibleConversion("int");
+}
+t_nan::operator t_float() const {
+	throw ImpossibleConversion("float");
+}
+t_nan::operator t_double() const {
+	throw ImpossibleConversion("double");
 }
 
 //* insertion operators VERY UGLY i know!
