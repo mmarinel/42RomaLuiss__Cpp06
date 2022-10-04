@@ -6,11 +6,12 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:04:02 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/30 15:53:02 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 10:00:38 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "types.hpp"
+# include "ScalarConverter.hpp"
 
 
 s_type::ImpossibleConversion::ImpossibleConversion()
@@ -35,3 +36,8 @@ const char*	s_type::NonDisplayableConversion::what( void ) const throw() {
 
 s_type::ImpossibleConversion::~ImpossibleConversion() throw() {}
 s_type::NonDisplayableConversion::~NonDisplayableConversion() throw() {}
+
+
+const char*	ScalarConverter::UnimplementedMethodException::what() const throw() {
+	return ("ScalarConverter: object-related method make no sense to abstract factory class");
+}

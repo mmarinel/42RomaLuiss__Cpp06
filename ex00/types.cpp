@@ -6,14 +6,12 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/01 19:02:13 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 10:42:07 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "types.hpp"
 
-static bool	is_digit(std::string arg);
-//* end of static declarations
 
 //* Constructors...if the string matches type exactly I convert it, otherwise exceptions are thrown
 
@@ -116,34 +114,34 @@ t_double::s_double( const double double_repr) {
 
 // * Conversions
 
-t_nan::operator t_printable_char() const {
+t_printable_char	t_nan::toTPrintChar() const {
 	throw ImpossibleConversion("char");
 }
-t_nan::operator t_int() const {
+t_int				t_nan::toTInt() const {
 	throw ImpossibleConversion("int");
 }
-t_nan::operator t_float() const {
+t_float				t_nan::toTFloat() const {
 	throw ImpossibleConversion("float");
 }
-t_nan::operator t_double() const {
+t_double			t_nan::toTDouble() const {
 	throw ImpossibleConversion("double");
 }
 
 	//* t_printable_char type
-t_printable_char::operator t_printable_char() const {
+t_printable_char	t_printable_char::toTPrintChar() const {
 	return (t_printable_char(this->value));
 }
-t_printable_char::operator t_int() const {
+t_int				t_printable_char::toTInt() const {
 	return (t_int(static_cast<int>(this->value)));
 }
-t_printable_char::operator t_float() const {
+t_float				t_printable_char::toTFloat() const {
 	return (t_float(static_cast<float>(this->value)));
 }
-t_printable_char::operator t_double() const {
+t_double			t_printable_char::toTDouble() const {
 	return (t_double(static_cast<double>(this->value)));
 }
 	//* t_int type
-t_int::operator t_printable_char() const {
+t_printable_char	t_int::toTPrintChar() const {
 	if (this->value > std::numeric_limits<char>::max()
 		|| this->value < std::numeric_limits<char>::min())
 		throw ImpossibleConversion("char");
@@ -151,17 +149,42 @@ t_int::operator t_printable_char() const {
 		throw NonDisplayableConversion("char");
 	return (t_printable_char(this->value));
 }
-t_int::operator t_int() const {
+t_int				t_int::toTInt() const {
 	return (this->value);
 }
-t_int::operator t_float() const {
+t_float				t_int::toTFloat() const {
 	return (t_float(static_cast<float>(this->value)));
 }
-t_int::operator t_double() const {
+t_double			t_int::toTDouble() const {
 	return (t_double(static_cast<double>(this->value)));
 }
-
 	//* t_float type
+t_printable_char	t_float::toTPrintChar() const {
+	throw t_type::ImpossibleConversion();
+}
+t_int				t_float::toTInt() const {
+	throw t_type::ImpossibleConversion();
+}
+t_float				t_float::toTFloat() const {
+	throw t_type::ImpossibleConversion();
+}
+t_double			t_float::toTDouble() const {
+	throw t_type::ImpossibleConversion();
+}
+	//* double type
+t_printable_char	t_double::toTPrintChar() const {
+	throw t_type::ImpossibleConversion();
+}
+t_int				t_double::toTInt() const {
+	throw t_type::ImpossibleConversion();
+}
+t_float				t_double::toTFloat() const {
+	throw t_type::ImpossibleConversion();
+}
+t_double			t_double::toTDouble() const {
+	throw t_type::ImpossibleConversion();
+}
+
 //* insertion operators VERY UGLY i know!
 const std::ostream&	operator<<(std::ostream& ostream, const t_printable_char& tchar) {
 	ostream << tchar.value;
@@ -185,14 +208,4 @@ const std::ostream&	operator<<(std::ostream& ostream, const t_double& tdouble) {
 	ostream << tdouble.value;
 
 	return (ostream);
-}
-
-static bool	is_digit(std::string arg)
-{
-	if (arg.empty())
-		return (false);
-	for (size_t i = 0; i < arg.length(); i++)
-		if (false == std::isdigit(arg[i]))
-			return (false);
-	return (true);
 }

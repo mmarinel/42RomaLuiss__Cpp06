@@ -6,21 +6,27 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 12:05:01 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/01 18:29:16 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 10:17:42 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 
-static bool	is_digit(std::string arg);
-//* end of static declarations
 
-const t_creation_handle	ScalarConverter::creationHandle[TTYPES] = {
+const ScalarConverter::t_creation_handle	ScalarConverter::creationHandle[TTYPES] = {
 	{&ScalarConverter::is_Tprintable_char, &ScalarConverter::makeTPrintableChar},
 	{&ScalarConverter::is_TInt, &ScalarConverter::makeTInt},
 	{&ScalarConverter::is_TFloat, &ScalarConverter::makeTFloat},
 	{&ScalarConverter::is_TDouble, &ScalarConverter::makeTDouble}
 };
+
+//* Main Exposed Functions
+t_type*	ScalarConverter::getScalar( const std::string string_repr ) {
+	for (size_t i = 0; i < TTYPES; i++)
+		if (true == ScalarConverter::creationHandle[i].condition_handle(string_repr))
+			return (ScalarConverter::creationHandle[i].creation_handle(string_repr));
+	return (new s_nan());
+}
 
 //* Conditions
 bool	ScalarConverter::is_Tprintable_char( const std::string string_repr ) {
@@ -30,7 +36,7 @@ bool	ScalarConverter::is_Tprintable_char( const std::string string_repr ) {
 	{
 		integral_repr = strtoll(string_repr.c_str(), nullptr, 10);
 		if (integral_repr > std::numeric_limits<char>::max()
-			|| integral_repr < std::numeric_limits<char>::lowest())//* useless
+			|| integral_repr < std::numeric_limits<char>::lowest())//* useless with currrent semantics of is_digit but useful if we'll change it
 			return (false);
 		if (false == std::isprint(static_cast<char>(integral_repr)))
 			return (false);
@@ -145,21 +151,11 @@ t_type*	ScalarConverter::makeTDouble( const std::string string_repr ) {
 }
 
 
-//* Static functions
-static bool	is_digit(std::string arg)
-{
-	if (arg.empty())
-		return (false);
-	for (size_t i = 0; i < arg.length(); i++)
-		if (false == std::isdigit(arg[i]))
-			return (false);
-	return (true);
-}
-
 //* Canonical Form shit
 // Constructors
 ScalarConverter::ScalarConverter()
 {
+	throw ScalarConverter::UnimplementedMethodException();
 }
 
 ScalarConverter::ScalarConverter(const ScalarConverter &copy)
@@ -182,8 +178,4 @@ ScalarConverter& ScalarConverter::operator=(const ScalarConverter &assign)
 	throw (ScalarConverter::UnimplementedMethodException());
 
 	return (*this);
-}
-
-const char*	ScalarConverter::UnimplementedMethodException::what() const throw() {
-	return ("ScalarConverter: object-related method make no sense to abstract factory class");
 }

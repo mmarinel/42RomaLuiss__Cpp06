@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 18:33:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/01 14:23:36 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 10:27:20 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <limits>
 
 # include "../colors.hpp"
+# include "utils.hpp"
 
 # define TYPES 4
 # define delete(ptr) {delete ptr; ptr = nullptr;}
@@ -31,11 +32,11 @@ typedef struct s_nan			t_nan;
 
 struct s_type
 {
-	//* Conversion operators
-	virtual	operator t_printable_char() const = 0;
-	virtual	operator t_int() const = 0;
-	virtual	operator t_float() const = 0;
-	virtual	operator t_double() const = 0;
+	//* Conversions
+	virtual	t_printable_char	toTPrintChar() const = 0;
+	virtual	t_int				toTInt() const = 0;
+	virtual	t_float				toTFloat() const = 0;
+	virtual	t_double			toTDouble() const = 0;
 
 	//* Exceptions
 	class ImpossibleConversion : public std::exception {
@@ -65,10 +66,10 @@ struct s_printable_char : public t_type
 	s_printable_char(const std::string string_repr);
 
 	//* Conversions
-	virtual	operator t_printable_char() const;
-	virtual	operator t_int() const;
-	virtual	operator t_float() const;
-	virtual	operator t_double() const;
+	virtual	t_printable_char	toTPrintChar() const;
+	virtual	t_int				toTInt() const;
+	virtual	t_float				toTFloat() const;
+	virtual	t_double			toTDouble() const;
 
 	//* Data
 	char value;
@@ -81,10 +82,10 @@ struct s_int : public t_type
 	s_int(const std::string string_repr);
 
 	//* Conversions
-	virtual	operator t_printable_char() const;
-	virtual	operator t_int() const;
-	virtual	operator t_float() const;
-	virtual	operator t_double() const;
+	virtual	t_printable_char	toTPrintChar() const;
+	virtual	t_int				toTInt() const;
+	virtual	t_float				toTFloat() const;
+	virtual	t_double			toTDouble() const;
 
 	//* Data
 	int value;
@@ -97,10 +98,10 @@ struct s_float : public t_type
 	s_float(const std::string string_repr);
 
 	//* Conversions
-	virtual	operator t_printable_char() const;
-	virtual	operator t_int() const;
-	virtual	operator t_float() const;
-	virtual	operator t_double() const;
+	virtual	t_printable_char	toTPrintChar() const;
+	virtual	t_int				toTInt() const;
+	virtual	t_float				toTFloat() const;
+	virtual	t_double			toTDouble() const;
 
 	//* Data
 	float value;
@@ -113,10 +114,10 @@ struct s_double : public t_type
 	s_double(const std::string string_repr);
 
 	//* Conversions
-	virtual	operator t_printable_char() const;
-	virtual	operator t_int() const;
-	virtual	operator t_float() const;
-	virtual	operator t_double() const;
+	virtual	t_printable_char	toTPrintChar() const;
+	virtual	t_int				toTInt() const;
+	virtual	t_float				toTFloat() const;
+	virtual	t_double			toTDouble() const;
 
 	//* Data
 	double value;
@@ -125,10 +126,10 @@ struct s_double : public t_type
 struct s_nan : public t_type
 {
 	//* Conversions
-	virtual	operator t_printable_char() const;
-	virtual	operator t_int() const;
-	virtual	operator t_float() const;
-	virtual	operator t_double() const;
+	virtual	t_printable_char	toTPrintChar() const;
+	virtual	t_int				toTInt() const;
+	virtual	t_float				toTFloat() const;
+	virtual	t_double			toTDouble() const;
 };
 
 //* Insertion operators
