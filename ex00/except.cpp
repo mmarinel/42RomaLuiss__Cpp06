@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:04:02 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 16:27:19 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:21:48 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 
 s_type::ImpossibleConversion::ImpossibleConversion()
-	: msg("ImpossibleConversion") {}
+	: msg(RED "Impossible Conversion" RESET) {}
 
 s_type::NonDisplayableConversion::NonDisplayableConversion()
-	: msg("NonDisplayableConversion") {}
+	: msg(RED "NonDisplayable Conversion" RESET) {}
 
 s_type::ImpossibleConversion::ImpossibleConversion( const char* sig)
-	: msg(std::string(sig) + std::string(":\tImpossibleConversion")) {}
+	: msg(std::string(sig) + std::string(":\t" RED "Impossible Conversion" RESET)) {}
 
 s_type::NonDisplayableConversion::NonDisplayableConversion( const char* sig )
-	: msg(std::string(sig) + std::string(":\tNonDisplayableConversion")) {}
+	: msg(std::string(sig) + std::string(":\t" RED "Non-Displayable Conversion" RESET)) {}
 
 const char*	s_type::ImpossibleConversion::what( void ) const throw() {
 	return (this->msg.c_str());
@@ -39,5 +39,5 @@ s_type::NonDisplayableConversion::~NonDisplayableConversion() throw() {}
 
 
 const char*	ScalarConverter::UnimplementedMethodException::what() const throw() {
-	return ("ScalarConverter: object-related method make no sense to abstract factory class");
+	return ( "ScalarConverter: " RED "object-related method make no sense to abstract factory class" RESET);
 }

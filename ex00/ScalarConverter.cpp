@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 12:05:01 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 16:47:27 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:39:28 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,9 @@ bool 	ScalarConverter::is_TDouble( std::string string_repr ) {
 	value = strtold(string_repr.c_str(), &repr_endPtr);
 	if (
 		*repr_endPtr
-		||
-		(value > std::numeric_limits<double>::max()
-			|| value < std::numeric_limits<double>::lowest())
+		// ||
+		// (value > std::numeric_limits<double>::max()
+		// 	|| value < std::numeric_limits<double>::lowest())
 	)
 		return (false);
 	else
@@ -152,7 +152,7 @@ t_type*	ScalarConverter::makeTFloat( const std::string string_repr ) {
 	scalar->posInff = (string_repr == "+inff")
 		|| value > std::numeric_limits<float>::max();
 	scalar->negInff = (string_repr == "-inff")
-		|| value < std::numeric_limits<float>::min();
+		|| value < std::numeric_limits<float>::lowest();
 
 	return (scalar);
 }
