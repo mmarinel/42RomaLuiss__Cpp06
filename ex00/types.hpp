@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 18:33:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 12:06:15 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:21:41 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ struct s_printable_char : public t_type
 {
 	//* Constructors
 	s_printable_char(const char char_repr);
-	s_printable_char(const std::string string_repr);
 
 	//* Conversions
 	virtual	t_printable_char	toTPrintChar() const;
@@ -81,7 +80,6 @@ struct s_int : public t_type
 {
 	//* Constructors
 	s_int(const int int_repr);
-	s_int(const std::string string_repr);
 
 	//* Conversions
 	virtual	t_printable_char	toTPrintChar() const;
@@ -97,7 +95,6 @@ struct s_float : public t_type
 {
 	//* Constructors
 	s_float(const float float_repr);
-	s_float(const std::string string_repr);
 
 	//* Conversions
 	virtual	t_printable_char	toTPrintChar() const;
@@ -106,23 +103,28 @@ struct s_float : public t_type
 	virtual	t_double			toTDouble() const;
 
 	//* Data
-	float value;
+	float	value;
+	bool	nanf;
+	bool	posInff;
+	bool	negInff;
 };
 
 struct s_double : public t_type
 {
 	//* Constructors
 	s_double(const double double_repr);
-	s_double(const std::string string_repr);
 
 	//* Conversions
 	virtual	t_printable_char	toTPrintChar() const;
 	virtual	t_int				toTInt() const;
 	virtual	t_float				toTFloat() const;
 	virtual	t_double			toTDouble() const;
-
+	
 	//* Data
 	double value;
+	bool	nan;
+	bool	posInf;
+	bool	negInf;
 };
 
 struct s_nan : public t_type

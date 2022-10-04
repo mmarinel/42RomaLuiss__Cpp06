@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 16:59:30 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 12:26:37 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 13:29:15 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static void	printScalar( const t_type* scalar, size_t level )
 			std::cout << scalar->toTInt() << std::endl;
 		case 2:
 			std::cout << scalar->toTFloat() << std::endl;
-		case 3:
-			std::cout << scalar->toTDouble() << std::endl;
+		// case 3:
+		// 	std::cout << scalar->toTDouble() << std::endl;
 		break ;
 		}
 	}
