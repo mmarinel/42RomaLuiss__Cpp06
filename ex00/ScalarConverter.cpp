@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 12:05:01 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 16:01:55 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:47:27 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_type*	ScalarConverter::getScalar( const std::string string_repr ) {
 	for (size_t i = 0; i < TTYPES; i++)
 		if (true == ScalarConverter::creationHandle[i].condition_handle(string_repr))
 			return (ScalarConverter::creationHandle[i].creation_handle(string_repr));
-	return (new s_nan());
+	return (new s_nat());
 }
 
 //* Conditions
@@ -56,9 +56,16 @@ bool	ScalarConverter::is_Tprintable_char( const std::string string_repr ) {
 bool	ScalarConverter::is_TInt( const std::string string_repr ) {
 	long long	value;
 
+	std::cout << YELLOW << "digits: " << string_repr.substr(1) << RESET << std::endl;
+	// if (0 == string_repr.substr(0,1).compare("-"))
+		// std::cout << YELLOW "compare '-' OK\n" RESET;
+	// else
+		// std::cout << RED "compare '-' NOT oK\n" RESET;
 	value = strtoll(string_repr.c_str(), nullptr, 10);
 	if (
-		false == is_digit(string_repr)
+		(false == is_digit(string_repr)
+			&& true == std::isdigit(string_repr[0])
+		)
 		|| (0 == string_repr.substr(0,1).compare("-")
 				&& false == is_digit(string_repr.substr(1))
 			)
@@ -74,7 +81,6 @@ bool	ScalarConverter::is_TFloat( const std::string string_repr ) {
 	long double	value;
 	char*		repr_endPtr = nullptr;
 
-	// std::cout << "float max: " << std::numeric_limits<float>::max() << " float lowest: " << std::numeric_limits<float>::lowest() << std::endl;
 	if (string_repr == "nanf" || string_repr == "-inff" || string_repr == "+inff")
 		return (true);
 	value = strtold(string_repr.c_str(), &repr_endPtr);
@@ -94,10 +100,7 @@ bool 	ScalarConverter::is_TDouble( std::string string_repr ) {
 
 	if (string_repr == "nan" || string_repr == "-inf" || string_repr == "+inf")
 		return (true);
-	// std::cout << "string: " << string_repr << std::endl;
-	// std::cout << "double max: " << std::numeric_limits<double>::max() << " float lowest: " << std::numeric_limits<double>::lowest() << std::endl;
 	value = strtold(string_repr.c_str(), &repr_endPtr);
-	// std::cout << "value: " << value << std::endl;
 	if (
 		*repr_endPtr
 		||
@@ -111,6 +114,7 @@ bool 	ScalarConverter::is_TDouble( std::string string_repr ) {
 
 //* Conversions
 t_type*	ScalarConverter::makeTPrintableChar( const std::string string_repr ) {
+	std::cout << GREEN << "Making as char\n" << RESET;
 	t_printable_char*	scalar;
 	long long			integral_repr;
 
@@ -127,6 +131,7 @@ t_type*	ScalarConverter::makeTPrintableChar( const std::string string_repr ) {
 	return (scalar);
 }
 t_type*	ScalarConverter::makeTInt( const std::string string_repr ) {
+	std::cout << GREEN << "Making as Int\n" << RESET;
 	t_int*		scalar;
 	long long	integral_repr;
 
@@ -136,6 +141,7 @@ t_type*	ScalarConverter::makeTInt( const std::string string_repr ) {
 	return (scalar);
 }
 t_type*	ScalarConverter::makeTFloat( const std::string string_repr ) {
+	std::cout << GREEN << "Making as float\n" << RESET;
 	t_float*	scalar;
 	long double	value;
 
@@ -143,12 +149,15 @@ t_type*	ScalarConverter::makeTFloat( const std::string string_repr ) {
 	scalar = new t_float(static_cast<float>(value));
 
 	scalar->nanf = (string_repr == "nanf");
-	scalar->posInff = (string_repr == "+inff");
-	scalar->negInff = (string_repr == "-inff");
+	scalar->posInff = (string_repr == "+inff")
+		|| value > std::numeric_limits<float>::max();
+	scalar->negInff = (string_repr == "-inff")
+		|| value < std::numeric_limits<float>::min();
 
 	return (scalar);
 }
 t_type*	ScalarConverter::makeTDouble( const std::string string_repr ) {
+	std::cout << GREEN << "Making as double\n" << RESET;
 	t_double*	scalar;
 	long double	value;
 
@@ -158,7 +167,8 @@ t_type*	ScalarConverter::makeTDouble( const std::string string_repr ) {
 	scalar->nan = (string_repr == "nan");
 	scalar->posInf = (string_repr == "+inf")
 		|| value > std::numeric_limits<double>::max();
-	scalar->negInf = (string_repr == "-inf");
+	scalar->negInf = (string_repr == "-inf")
+		|| value < std::numeric_limits<double>::lowest();
 
 	return (scalar);
 }

@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 15:34:29 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:48:50 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,44 @@ t_int::s_int( const int int_repr) {
 
 t_float::s_float( const float float_repr) {
 	this->value = float_repr;
+	this->posInff = false;
+	this->negInff = false;
+	this->nanf = false;
 }
 
 t_double::s_double( const double double_repr) {
 	this->value = double_repr;
+	this->posInf = false;
+	this->negInf = false;
+	this->nan = false;
 }
 
 // * Conversions
 
 	//* nan value
-t_printable_char	t_nan::toTPrintChar() const {
+t_printable_char	t_nat::toTPrintChar() const {
 	throw ImpossibleConversion("char");
 }
-t_int				t_nan::toTInt() const {
+t_int				t_nat::toTInt() const {
 	throw ImpossibleConversion("int");
 }
-t_float				t_nan::toTFloat() const {
-	throw ImpossibleConversion("float");
+t_float				t_nat::toTFloat() const {
+	t_float	scalar = t_float(0.0f);
+
+	scalar.nanf = true;
+	scalar.posInff = false;
+	scalar.negInff = false;
+
+	return (scalar);
 }
-t_double			t_nan::toTDouble() const {
-	throw ImpossibleConversion("double");
+t_double			t_nat::toTDouble() const {
+	t_double	scalar = t_double(0.0f);
+
+	scalar.nan = true;
+	scalar.posInf = false;
+	scalar.negInf = false;
+
+	return (scalar);
 }
 	//* t_printable_char type
 t_printable_char	t_printable_char::toTPrintChar() const {
@@ -66,7 +84,7 @@ t_double			t_printable_char::toTDouble() const {
 	//* t_int type
 t_printable_char	t_int::toTPrintChar() const {
 	if (this->value > std::numeric_limits<char>::max()
-		|| this->value < std::numeric_limits<char>::min())
+		|| this->value < std::numeric_limits<char>::lowest())
 		throw ImpossibleConversion("char");
 	if (false == std::isprint(static_cast<char>(this->value)))
 		throw NonDisplayableConversion("char");
@@ -189,47 +207,47 @@ t_double			t_double::toTDouble() const {
 
 //* insertion operators VERY UGLY, I know!
 std::ostream&	operator<<(std::ostream& ostream, const t_printable_char& tchar) {
-	ostream << "char: " << tchar.value;
+	ostream << "char:\t" << tchar.value;
 
 	return (ostream);
 }
 
 std::ostream&	operator<<(std::ostream& ostream, const t_int& tint) {
-	ostream << "int: " << tint.value;
+	ostream << "int:\t" << tint.value;
 
 	return (ostream);
 }
 
 std::ostream&	operator<<(std::ostream& ostream, const t_float& tfloat) {
 	if (tfloat.posInff)
-		ostream << "float: +inff";
+		ostream << "float:\t+inff";
 	else if (tfloat.negInff)
-		ostream << "float: -inff";
+		ostream << "float:\t-inff";
 	else if (tfloat.nanf)
-		ostream << "float: nanf";
+		ostream << "float:\tnanf";
 	else
 	{
 		if (tfloat.value - static_cast<int>(tfloat.value) != 0)
-			ostream << "float: " << tfloat.value << "f";
+			ostream << "float:\t" << tfloat.value << "f";
 		else
-			ostream << "float: " << tfloat.value << ".0f";
+			ostream << "float:\t" << tfloat.value << ".0f";
 	}
 	return (ostream);
 }
 
 std::ostream&	operator<<(std::ostream& ostream, const t_double& tdouble) {
 	if (tdouble.posInf)
-		ostream << "double: +inf";
+		ostream << "double:\t+inf";
 	else if (tdouble.negInf)
-		ostream << "double: -inf";
+		ostream << "double:\t-inf";
 	else if (tdouble.nan)
-		ostream << "double: nan";
+		ostream << "double:\tnan";
 	else
 	{
 		if (tdouble.value - static_cast<int>(tdouble.value) != 0)
-			ostream << "double: " << tdouble.value;
+			ostream << "double:\t" << tdouble.value;
 		else
-			ostream << "double: " << tdouble.value << ".0";
+			ostream << "double:\t" << tdouble.value << ".0";
 	}
 	return (ostream);
 }

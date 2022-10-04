@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 18:33:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 15:21:41 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:18:38 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_printable_char	t_printable_char;
 typedef struct s_int			t_int;
 typedef struct s_float			t_float;
 typedef struct s_double			t_double;
-typedef struct s_nan			t_nan;
+typedef struct s_nat			t_nat;
 
 struct s_type
 {
@@ -127,7 +127,8 @@ struct s_double : public t_type
 	bool	negInf;
 };
 
-struct s_nan : public t_type
+	//* nat = "not a type"
+struct s_nat : public t_type
 {
 	//* Conversions
 	virtual	t_printable_char	toTPrintChar() const;
@@ -141,6 +142,6 @@ std::ostream& operator << ( std::ostream& ostream, const t_printable_char& tchar
 std::ostream& operator << ( std::ostream& ostream, const t_int& tint );
 std::ostream& operator << ( std::ostream& ostream, const t_float& tfloat );
 std::ostream& operator << ( std::ostream& ostream, const t_double& tdouble );
-std::ostream& operator << ( std::ostream& ostream, const t_nan& tnan );
+std::ostream& operator << ( std::ostream& ostream, const t_nat& tnan );
 
 #endif /* TYPES_H */
