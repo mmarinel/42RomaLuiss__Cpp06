@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 18:33:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 10:27:20 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:06:15 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_nan			t_nan;
 
 struct s_type
 {
+	virtual ~s_type();
+
 	//* Conversions
 	virtual	t_printable_char	toTPrintChar() const = 0;
 	virtual	t_int				toTInt() const = 0;
@@ -133,10 +135,10 @@ struct s_nan : public t_type
 };
 
 //* Insertion operators
-const std::ostream& operator << ( std::ostream& ostream, const t_printable_char& tchar );
-const std::ostream& operator << ( std::ostream& ostream, const t_int& tint );
-const std::ostream& operator << ( std::ostream& ostream, const t_float& tfloat );
-const std::ostream& operator << ( std::ostream& ostream, const t_double& tdouble );
-const std::ostream& operator << ( std::ostream& ostream, const t_nan& tnan );
+std::ostream& operator << ( std::ostream& ostream, const t_printable_char& tchar );
+std::ostream& operator << ( std::ostream& ostream, const t_int& tint );
+std::ostream& operator << ( std::ostream& ostream, const t_float& tfloat );
+std::ostream& operator << ( std::ostream& ostream, const t_double& tdouble );
+std::ostream& operator << ( std::ostream& ostream, const t_nan& tnan );
 
 #endif /* TYPES_H */

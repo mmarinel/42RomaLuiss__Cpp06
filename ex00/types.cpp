@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 10:50:37 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:28:34 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ t_printable_char	t_int::toTPrintChar() const {
 	return (t_printable_char(this->value));
 }
 t_int				t_int::toTInt() const {
-	return (this->value);
+	return (t_int(this->value));
 }
 t_float				t_int::toTFloat() const {
 	return (t_float(static_cast<float>(this->value)));
@@ -160,52 +160,93 @@ t_double			t_int::toTDouble() const {
 }
 	//* t_float type
 t_printable_char	t_float::toTPrintChar() const {
-	throw t_type::ImpossibleConversion();
+	long long int	integral_repr;
+
+	integral_repr = static_cast<long long int>(this->value);
+	if (
+		integral_repr >= std::numeric_limits<char>::max()
+		&& integral_repr <= std::numeric_limits<char>::lowest()
+		&& std::isprint(integral_repr)
+	)
+		return (t_printable_char(static_cast<char>(this->value)));
+	else
+		throw t_type::ImpossibleConversion("char");
 }
 t_int				t_float::toTInt() const {
-	throw t_type::ImpossibleConversion();
+	if (
+		this->value <= std::numeric_limits<int>::max()
+		&& this->value >= std::numeric_limits<int>::lowest()
+	)
+		return (t_int(static_cast<int>(this->value)));
+	else
+		throw ImpossibleConversion("int");
 }
 t_float				t_float::toTFloat() const {
-	return (this->value);
+	return (t_float(this->value));
 }
 t_double			t_float::toTDouble() const {
-	throw t_type::ImpossibleConversion();
+	return (t_double(static_cast<double>(this->value)));
 }
 	//* double type
 t_printable_char	t_double::toTPrintChar() const {
-	throw t_type::ImpossibleConversion();
+	long long int	integral_repr;
+
+	integral_repr = static_cast<long long int>(this->value);
+	if (
+		integral_repr >= std::numeric_limits<char>::max()
+		&& integral_repr <= std::numeric_limits<char>::lowest()
+		&& std::isprint(integral_repr)
+	)
+		return (t_printable_char(static_cast<char>(this->value)));
+	else
+		throw t_type::ImpossibleConversion("char");
 }
 t_int				t_double::toTInt() const {
-	throw t_type::ImpossibleConversion();
+	if (
+		this->value <= std::numeric_limits<int>::max()
+		&& this->value >= std::numeric_limits<int>::lowest()
+	)
+		return (t_int(static_cast<int>(this->value)));
+	else
+		throw ImpossibleConversion("int");
 }
 t_float				t_double::toTFloat() const {
-	throw t_type::ImpossibleConversion();
+	return (t_float(static_cast<t_float>(this->value)));
 }
 t_double			t_double::toTDouble() const {
-	throw t_type::ImpossibleConversion();
+	return (t_double(static_cast<t_double>(this->value)));
 }
 
 //* insertion operators VERY UGLY i know!
-const std::ostream&	operator<<(std::ostream& ostream, const t_printable_char& tchar) {
-	ostream << tchar.value;
+std::ostream&	operator<<(std::ostream& ostream, const t_printable_char& tchar) {
+	ostream << "char: " << tchar.value;
 
 	return (ostream);
 }
 
-const std::ostream&	operator<<(std::ostream& ostream, const t_int& tint) {
-	ostream << tint.value;
+std::ostream&	operator<<(std::ostream& ostream, const t_int& tint) {
+	ostream << "int: " << tint.value;
 
 	return (ostream);
 }
 
-const std::ostream&	operator<<(std::ostream& ostream, const t_float& tfloat) {
-	ostream << tfloat.value;
-
+std::ostream&	operator<<(std::ostream& ostream, const t_float& tfloat) {
+	if (tfloat.value - static_cast<int>(tfloat.value) != 0)
+		ostream << "float: " << tfloat.value << "f";
+	else
+		ostream << "float: " << tfloat.value << ".0f";
 	return (ostream);
 }
 
-const std::ostream&	operator<<(std::ostream& ostream, const t_double& tdouble) {
-	ostream << tdouble.value;
-
+std::ostream&	operator<<(std::ostream& ostream, const t_double& tdouble) {
+	if (tdouble.value - static_cast<int>(tdouble.value) != 0)
+		ostream << "double: " << tdouble.value;
+	else
+		ostream << "double: " << tdouble.value << ".0";
 	return (ostream);
+}
+
+//* Destructors
+
+t_type::~s_type() {
 }
