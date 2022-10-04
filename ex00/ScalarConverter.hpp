@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 12:04:22 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 10:08:24 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 10:48:01 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class ScalarConverter
 		ScalarConverter & operator=(const ScalarConverter &assign);
 		
 		//* Logic
-		t_type*	getScalar( const std::string string_repr );
+		static t_type*	getScalar( const std::string string_repr );
 
 		//* Exception
 		class UnimplementedMethodException : public std::exception {

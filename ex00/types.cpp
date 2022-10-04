@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 10:42:07 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/04 10:50:37 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ t_int				t_float::toTInt() const {
 	throw t_type::ImpossibleConversion();
 }
 t_float				t_float::toTFloat() const {
-	throw t_type::ImpossibleConversion();
+	return (this->value);
 }
 t_double			t_float::toTDouble() const {
 	throw t_type::ImpossibleConversion();
