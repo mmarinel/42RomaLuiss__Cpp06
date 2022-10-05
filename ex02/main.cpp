@@ -5,126 +5,140 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/04 14:44:14 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/09/23 11:54:50 by mmarinel         ###   ########.fr       */
+/*   Created: 2022/10/05 14:25:48 by mmarinel          #+#    #+#             */
+/*   Updated: 2022/10/05 16:02:55 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
-#include "ShrubberyCreationForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "Form.hpp"
+# include <iostream>
+# include <string>
+# include <time.h>
 
-#include <fstream>
-#include <iostream>
-#include <string>
+# include "Base.hpp"
+# include "A.hpp"
+# include "B.hpp"
+# include "C.hpp"
 
-static Bureaucrat*	read_bureaucrat( void );
-static Form*		read_form( void );
+# define CONCRETE_CLASSES 3
+
+//* custom TYPES
+typedef Base*(*t_creation_handle)( void );
+
+//* static Functions
+static Base*	generate( void );
+static void		identify(Base* p);
+static void		identify(Base& p);
+static void		identify_by_ref( Base& p, size_t step );
+static Base*	makeA(void);
+static Base*	makeB(void);
+static Base*	makeC(void);
 //* end of static declarations
 
-int	main()
+int main( void )
 {
-	Bureaucrat	*bur = nullptr;
-	Form		*form = nullptr;
-	bool		repeat;
+	Base*	obj = generate();
 
-	std::cin.exceptions(std::ios_base::badbit | std::ios_base::eofbit);
-	repeat = true;
-	while (repeat)
-	{
-		try {
-			bur = read_bureaucrat();
-			form = read_form();
-			bur->signForm(*form);
-			bur->executeForm(*form);
-			repeat = false;
-		}
-		catch (std::istream::failure &e) {
-			std::cout << BOLDRED << "eof caught or stream broken" << RESET << std::endl;
-			repeat = false;
-		}
-		catch (std::exception &e) {
-			std::cout << "\npress any key to retry..." << std::endl;
-			getchar();
-		}
-		_delete(bur);
-		_delete(form);
-	}
+	identify(obj);
+	identify(*obj);
+
+	delete obj;
+
+	std::cout << "\nTESTS END\n\n";
 	return 0;
 }
 
-static Bureaucrat*	read_bureaucrat( void )
+static Base*	generate( void )
 {
-	Bureaucrat*	bur = nullptr;
-	bool		repeat;
-	std::string	bur_name;
-	int			bur_grade;
+	static const	t_creation_handle	creation_handle[CONCRETE_CLASSES] = {
+		&makeA,
+		&makeB,
+		&makeC
+	};
+	static 			bool	first_call = true;
 
-	repeat = true;
-	while (repeat)
+	if (first_call)
 	{
-		read_string(bur_name, "enter bureaucrat name");
-		read_input(&bur_grade, int, "insert bureaucrat grade");
-		try {
-			bur = new Bureaucrat(bur_name, bur_grade);
-			repeat = false;
-		}
-		catch (std::exception& e) {
-			std::cout << "Invalid bureaucrat data: " << e.what() << std::endl;
-			std::cout << "Press any key to retry...";
-			std::getchar();
-			std::cout  << std::endl;
-		}
+		srand(time(NULL));
+		first_call = false;
 	}
-	return (bur);
+	return creation_handle[rand() % CONCRETE_CLASSES]();
 }
 
-static Form*	read_form( void )
+static void		identify(Base* p)
 {
-	Form*		form = nullptr;
-	bool		repeat;
-	int			selection;
-	std::string	target;
+	if (nullptr != dynamic_cast<A*>(p))
+		std::cout << GREEN << "A" << RESET << std::endl;
+	else if (nullptr != dynamic_cast<B*>(p))
+		std::cout << GREEN << "B" << RESET << std::endl;
+	else if (nullptr != dynamic_cast<C*>(p))
+		std::cout << GREEN << "C" << RESET << std::endl;
+	else
+		std::cout << RED << "Not recognized" << RESET << std::endl;
+}
 
-	repeat = true;
-	while (repeat)
+static void		identify(Base& p)
+{
+	identify_by_ref(p, 0);
+}
+
+static void		identify_by_ref( Base& p, size_t step )
+{
+	try
 	{
-		do
+		switch (step)
 		{
-			read_input(\
-				&selection,\
-				int,\
-				"choose form type:\n|\t1. ShrubberyCreation\t2. RobotomyRequest\t 3. PresidentialPardon|\n"
-			);
-		} while (selection < 1 || selection > 3);
-		read_string(target, "choose target name");
-		try
-		{
-			switch (selection)
-			{
-			case 1:
-				form = new ShrubberyCreationForm(target);
-				break;
-			case 2:
-				form = new RobotomyRequestForm(target);
-				break;
-			case 3:
-				form = new PresidentialPardonForm(target);
-				break;
-
-			default:
-				break;
-			}
-			repeat = false;
-		}
-		catch(const std::exception& e)
-		{
-			std::cout << "Invalid Form data: " << e.what();
-			std::getchar();
-			std::cout  << std::endl;
+		case 0:
+			std::cout << GREEN << dynamic_cast<A&>(p) << RESET << std::endl;
+			break;
+		case 1:
+			std::cout << GREEN << dynamic_cast<B&>(p) << RESET << std::endl;
+			break;
+		case 2:
+			std::cout << GREEN << dynamic_cast<C&>(p) << RESET << std::endl;
+			break;
+		default:
+			std::cout << RED << "Not recognized" << RESET << std::endl;
+			break;
 		}
 	}
-	return  (form);
+	catch(const std::bad_cast& e)
+	{
+		identify_by_ref(p, step + 1);
+	}
+}
+
+static Base*	makeA( void )
+{
+	return (new A());
+}
+
+static Base*	makeB( void )
+{
+	return (new B());
+}
+
+static Base*	makeC( void )
+{
+	return (new C());
+}
+
+std::ostream&	operator<<( std::ostream& stream, const A& obj ) {
+	(void) obj;
+	stream << "A" << std::endl;
+
+	return (stream);
+}
+
+std::ostream&	operator<<( std::ostream& stream, const B& obj ) {
+	(void) obj;
+	stream << "B" << std::endl;
+
+	return (stream);
+}
+
+std::ostream&	operator<<( std::ostream& stream, const C& obj ) {
+	(void) obj;
+	stream << "C" << std::endl;
+
+	return (stream);
 }
