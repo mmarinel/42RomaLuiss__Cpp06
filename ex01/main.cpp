@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 19:01:51 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/05 14:19:33 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:34:05 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ int	main( void )
 	std::cout << YELLOW << data << RESET << std::endl;
 	std::cout << "Printing structure after pointer magic" << std::endl;
 	Data*	newPtr = deserialize(serialize(&data));
-	std::cout << YELLOW << data << RESET << std::endl;
+	std::cout << YELLOW << *newPtr << RESET << std::endl;
 
 	if (newPtr == &data)
 		std::cout << "Pointer Check: " << GREEN << "OK" << RESET << std::endl;
 	else
 		std::cout << "Pointer Check: " << RED << "NOT OK" << RESET << std::endl;
+	std::cout << std::endl;
 	return 0;
 }
 
