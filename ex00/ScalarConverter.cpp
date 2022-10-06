@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 12:05:01 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/06 12:38:52 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:49:36 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_type*	ScalarConverter::getScalar( const std::string string_repr ) {
 
 //* Conditions
 bool	ScalarConverter::is_Tprintable_char( const std::string string_repr ) {
+	if (string_repr.empty())
+		return (false);
 	if (string_repr.length() != 1)
 		return (false);
 	if (
@@ -44,6 +46,8 @@ bool	ScalarConverter::is_Tprintable_char( const std::string string_repr ) {
 bool	ScalarConverter::is_TInt( const std::string string_repr ) {
 	long long	value;
 
+	if (string_repr.empty())
+		return (false);
 	value = strtoll(string_repr.c_str(), nullptr, 10);
 	if (
 		(0 != string_repr.substr(0,1).compare("-")
@@ -64,6 +68,8 @@ bool	ScalarConverter::is_TFloat( const std::string string_repr ) {
 	long double	value;
 	char*		repr_endPtr = nullptr;
 
+	if (string_repr.empty())
+		return (false);
 	if (string_repr == "nanf" || string_repr == "-inff" || string_repr == "+inff")
 		return (true);
 	if (string_repr == "nan" || string_repr == "-inf"
@@ -83,6 +89,8 @@ bool 	ScalarConverter::is_TDouble( std::string string_repr ) {
 	long double	value;
 	char*		repr_endPtr = nullptr;
 
+	if (string_repr.empty())
+		return (false);
 	if (string_repr == "nan" || string_repr == "-inf" || string_repr == "+inf")
 		return (true);
 	if (string_repr == "nanf" || string_repr == "-inff"

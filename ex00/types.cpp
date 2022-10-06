@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/06 12:29:10 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/06 13:19:51 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ std::ostream&	operator<<(std::ostream& ostream, const t_int& tint) {
 }
 
 std::ostream&	operator<<(std::ostream& ostream, const t_float& tfloat) {
+	std::cout << std::fixed;
 	if (tfloat.posInff)
 		ostream << "float:\t+inff";
 	else if (tfloat.negInff)
@@ -228,15 +229,13 @@ std::ostream&	operator<<(std::ostream& ostream, const t_float& tfloat) {
 		ostream << "float:\tnanf";
 	else
 	{
-		if (tfloat.value - static_cast<int>(tfloat.value) != 0)
-			ostream << "float:\t" << tfloat.value << "f";
-		else
-			ostream << "float:\t" << tfloat.value << ".0f";
+		ostream << "float:\t" << tfloat.value << "f";
 	}
 	return (ostream);
 }
 
 std::ostream&	operator<<(std::ostream& ostream, const t_double& tdouble) {
+	std::cout << std::fixed;
 	if (tdouble.posInf)
 		ostream << "double:\t+inf";
 	else if (tdouble.negInf)
@@ -245,10 +244,7 @@ std::ostream&	operator<<(std::ostream& ostream, const t_double& tdouble) {
 		ostream << "double:\tnan";
 	else
 	{
-		if (tdouble.value - static_cast<int>(tdouble.value) != 0)
-			ostream << "double:\t" << tdouble.value;
-		else
-			ostream << "double:\t" << tdouble.value << ".0";
+		ostream << "double:\t" << tdouble.value;
 	}
 	return (ostream);
 }
