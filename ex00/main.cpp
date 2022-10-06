@@ -6,15 +6,9 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 16:59:30 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 18:35:15 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/06 12:46:37 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// #include <iostream>
-// #include <string>
-// #include <cstdlib>
-// #include <cctype>
-// #include <limits>
 
 /*
 	................................................................
@@ -37,16 +31,6 @@ static void	printScalar( const t_type* scalar, size_t level );
 int main(int argc, char const *argv[])
 {
 	t_type*	scalar;
-	// std::cout << "................................................................" << std::endl;
-	// std::cout << "Float max: " << std::numeric_limits<float>::max() << std::endl;
-	// std::cout << "Float min: " << std::numeric_limits<float>::lowest() << std::endl;
-	// std::cout << "Double max: " << std::numeric_limits<double>::max() << std::endl;
-	// std::cout << "Double min: " << std::numeric_limits<double>::lowest() << std::endl;
-	// std::cout << "Int max: " << std::numeric_limits<int>::max() << std::endl;
-	// std::cout << "Int min: " << std::numeric_limits<int>::lowest() << std::endl;
-	// std::cout << "Char max: " << static_cast<int>(std::numeric_limits<char>::max()) << std::endl;
-	// std::cout << "Char min: " << static_cast<int>( std::numeric_limits<char>::lowest()) << std::endl;
-	// std::cout << "................................................................" << std::endl;
 	if (argc == 2)
 	{
 		scalar = ScalarConverter::getScalar(argv[1]);
@@ -59,6 +43,7 @@ int main(int argc, char const *argv[])
 			<< RED
 			<< "Wrong number of arguments (1 expected)"
 			<< RESET
+			<< std::endl
 			<< std::endl;
 }
 
@@ -76,6 +61,7 @@ static void	printScalar( const t_type* scalar, size_t level )
 			std::cout << scalar->toTFloat() << std::endl;
 		case 3:
 			std::cout << scalar->toTDouble() << std::endl;
+		std::cout << std::endl;
 		break ;
 		}
 	}
