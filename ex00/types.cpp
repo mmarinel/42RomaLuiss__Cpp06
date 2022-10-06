@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:08:27 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/06 13:19:51 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:22:24 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,15 @@ t_double			t_printable_char::toTDouble() const {
 }
 	//* t_int type
 t_printable_char	t_int::toTPrintChar() const {
+	char	as_char;
+
+	as_char = static_cast<char>(this->value);
 	if (this->value > std::numeric_limits<char>::max()
 		|| this->value < std::numeric_limits<char>::lowest())
 		throw ImpossibleConversion("char");
-	if (false == std::isprint(static_cast<char>(this->value)))
+	if (false == std::isprint(as_char))
 		throw NonDisplayableConversion("char");
-	return (t_printable_char(static_cast<char>(this->value)));
+	return (t_printable_char(as_char));
 }
 t_int				t_int::toTInt() const {
 	return (t_int(this->value));

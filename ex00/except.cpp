@@ -6,7 +6,7 @@
 /*   By: mmarinel <mmarinel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 11:04:02 by mmarinel          #+#    #+#             */
-/*   Updated: 2022/10/04 18:21:48 by mmarinel         ###   ########.fr       */
+/*   Updated: 2022/10/06 15:07:02 by mmarinel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,5 @@ s_type::NonDisplayableConversion::~NonDisplayableConversion() throw() {}
 
 
 const char*	ScalarConverter::UnimplementedMethodException::what() const throw() {
-	return ( "ScalarConverter: " RED "object-related method make no sense to abstract factory class" RESET);
+	return ( "ScalarConverter: " RED "object-related method makes no sense to abstract factory class" RESET);
 }
